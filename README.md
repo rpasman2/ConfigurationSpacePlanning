@@ -1,4 +1,4 @@
-#ConFiguration Space Planning
+# ConfigurationSpacePlanning
 Transforms a 2D planning problem for a robotic arm into a configuration space, and then searches for a path in that space
 
 Problem Statement:
