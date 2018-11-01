@@ -1,58 +1,19 @@
-# CS 440 MP2: Robotic Arm
+#ConFiguration Space Planning
+Transforms a 2D planning problem for a robotic arm into a configuration space, and then searches for a path in that space
 
-## Implement:
-1. geometry.py
-2. transform.py
-3. search.py
-4. maze.py for extra credit only 
+Problem Statement:
+Given a two-link arm in 2D space. This arm has two links of length L1 and L2 respectively. The arm is free to rotate 
+about its base that is pivoted on the ground and link-2 can rotate about the joint where it connects with link-1. 
+We use α for the angle between the link-1 and the ground (equivalent to θ1). We use β for the angle between link-2 and 
+link-1 (equivalent to θ2). Note that the angles are measured counter-clockwise.
 
-## Requirements:
-```
-python3
-pygame
-numpy (optional)
-```
-## Running:
-The main file to run the mp is mp1.py:
+For each planning problem, the given information is:
+The starting angles for the robotic arm.
+The location (x,y) and radius r of a circular goal.
+The locations (x,y) and radius r of various circular obstacles.
 
-```
-usage: mp2.py [-h] [--map MAP_NAME] [--method {bfs,dfs,greedy,astar}]
-              [--human] [--fps FPS] [--granularity GRANULARITY]
-              [--trajectory TRAJECTORY] [--save-image SAVEIMAGE]
-              [--save-maze SAVEMAZE]
-```
+The objective is to find a shortest path for the robotic arm from its starting position to the goal so that the open tip of the arm touches or is inside the goal.
 
-Examples of how to run MP2:
-```
-python mp2.py --map Map1 --human
-```
-```
-python mp1.py --map Map2 --granularity 10 --method astar
-```
-
-For help run:
-```
-python mp2.py -h
-```
-Help Output:
-```
-CS440 MP2 Robotic Arm
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --map MAP_NAME        configuration filename - default BasicMap
-  --method {bfs,dfs,greedy,astar}
-                        search method - default bfs
-  --human               flag for human playable - default False
-  --fps FPS             fps for the display - default 30
-  --granularity GRANULARITY
-                        degree granularity - default 2
-  --trajectory TRAJECTORY
-                        leave footprint of rotation trajectory in every x
-                        moves - default 0
-  --save-image SAVEIMAGE
-                        save output to image file - default not saved
-  --save-maze SAVEMAZE  save the contructed maze to maze file - default not
-                        saved
-
-```
+I do my path planning in two steps:
+1. Compute a configuration space map (Maze) that shows which joint angles are blocked by obstacles or by the window.
+2. Use search algorithms to compute a shortest path in this configuration space map.
